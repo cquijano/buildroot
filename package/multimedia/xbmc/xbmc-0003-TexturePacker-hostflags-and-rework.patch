@@ -1,0 +1,107 @@
+From 96cbd1f3cbc596a1d3af266642b6f550597c25d6 Mon Sep 17 00:00:00 2001
+From: octo <octo@lusca.local>
+Date: Wed, 12 Dec 2012 23:35:08 +0100
+Subject: [PATCH] TexturePacker hostflags and rework
+
+Patch originally taken from :
+https://raw.github.com/OpenELEC/OpenELEC.tv/master/packages/mediacenter/xbmc/patches/xbmc-74b907c-321-texturepacker-hostflags-and-rework.patch
+
+From the repo of XBMC, this patch should be upstream one day.
+
+---
+ tools/TexturePacker/Makefile.in |   64 +++++++++++++++++++--------------------
+ 1 file changed, 31 insertions(+), 33 deletions(-)
+
+diff --git a/tools/TexturePacker/Makefile.in b/tools/TexturePacker/Makefile.in
+index 17e1cb6..b18b88c 100644
+--- a/tools/TexturePacker/Makefile.in
++++ b/tools/TexturePacker/Makefile.in
+@@ -7,54 +7,52 @@ ifeq (@USE_TEXTUREPACKER_NATIVE@,1)
+ CXXFLAGS=$(HOST_CXXFLAGS)
+ endif
+ 
+-CXXFLAGS+= \
++SRCS           = \
++  md5.cpp \
++  SDL_anigif.cpp \
++  XBTFWriter.cpp \
++  XBMCTex.cpp \
++  @abs_top_srcdir@/xbmc/guilib/XBTF.cpp
++
++TARGET         = TexturePacker
++CLEAN_FILES    = $(TARGET)
++
++all: $(TARGET)
++
++HOST_CXX      ?= g++
++HOST_ROOT_PATH = @USE_TEXTUREPACKER_NATIVE_ROOT@
++
++LIBS          += -lSDL_image -lSDL -llzo2
++LIBS          += -L@abs_top_srcdir@/lib/libsquish -lsquish
++HOST_LIBS     += -L$(HOST_ROOT_PATH)/lib -lSDL_image -lSDL -llzo2
++HOST_LIBS     += -L@abs_top_srcdir@/lib/libsquish -lsquish-native
++
++CXXFLAGS      += \
+   -I. \
+   -I@abs_top_srcdir@/lib \
+   -I@abs_top_srcdir@/xbmc \
+   -I@abs_top_srcdir@/xbmc/linux
+ 
+-RPATH=-Wl,-rpath=$(NATIVE_ROOT_PATH)/lib
++HOST_CXXFLAGS += \
++  -I. \
++  -I@abs_top_srcdir@/lib \
++  -I@abs_top_srcdir@/xbmc \
++  -I@abs_top_srcdir@/xbmc/linux \
++  -I$(HOST_ROOT_PATH)/include
++
++RPATH=-Wl,-rpath=$(HOST_ROOT_PATH)/lib
+ 
+-ifeq (@USE_TEXTUREPACKER_NATIVE@,1)
+-NATIVE_ROOT_PATH=@USE_TEXTUREPACKER_NATIVE_ROOT@
+-ifdef NATIVE_ROOT_PATH
+ ifeq ($(findstring Darwin,$(shell uname -s)),Darwin)
+ DEFINES += -DTARGET_DARWIN
+ NATIVE_ARCH=@DARWIN_NATIVE_ARCH@
+ RPATH=
+ endif
+-NATIVE_CXXFLAGS+= -I. \
+-                  -I$(NATIVE_ROOT_PATH)/include \
+-                  -I@abs_top_srcdir@/lib \
+-                  -I@abs_top_srcdir@/xbmc \
+-                  -I@abs_top_srcdir@/xbmc/linux
+-NATIVE_LIBS    += -L$(NATIVE_ROOT_PATH)/lib
+-endif
+-NATIVE_LIBS    += -lSDL_image -lSDL -llzo2
+-NATIVE_LIBS    += -L@abs_top_srcdir@/lib/libsquish -lsquish-native
+-else
+-LIBS    += -L@abs_top_srcdir@/lib/libsquish -lsquish
+-endif
+-
+-LIBS    += -lSDL_image -lSDL -llzo2
+-
+-SRCS = \
+-  md5.cpp \
+-  SDL_anigif.cpp \
+-  XBTFWriter.cpp \
+-  XBMCTex.cpp \
+-  @abs_top_srcdir@/xbmc/guilib/XBTF.cpp
+-
+-
+-TARGET = TexturePacker
+-CLEAN_FILES=$(TARGET)
+-
+-all: $(TARGET)
+ 
+ ifeq (@USE_TEXTUREPACKER_NATIVE@,1)
+ # TexturePacker run native on build system, build it with native tools
+ $(TARGET): $(SRCS) @abs_top_srcdir@/xbmc/guilib/XBTF.h
+-	g++ $(DEFINES) $(NATIVE_ARCH) $(NATIVE_CXXFLAGS) $(SRCS) $(NATIVE_LIBS) $(RPATH) -o $(TARGET)
++	make -C @abs_top_srcdir@/lib/libsquish libsquish-native.so
++	$(HOST_CXX) $(DEFINES) $(NATIVE_ARCH) $(HOST_CXXFLAGS) $(SRCS) $(HOST_LIBS) $(RPATH) -o $(TARGET)
+ clean:
+ 	rm -f $(TARGET)
+ else
+-- 
+1.7.10.4
+

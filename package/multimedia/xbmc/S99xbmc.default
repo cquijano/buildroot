@@ -1,0 +1,24 @@
+#!/bin/sh
+
+NAME=xbmc.bin
+DAEMON=/usr/lib/xbmc/$NAME
+DAEMON_ARGS="--standalone -fs -n"
+PIDFILE=/var/run/xbmc.pid
+
+export HOME=/root
+
+case "$1" in
+	start)
+		echo $(start-stop-daemon -u root -m --start --quiet --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS; RETURN=$?; case $RETURN in 0 ) echo do normal exit.....; exit 0; ;; 64 ) echo do power off.....; halt ;; 66 ) echo do reboot.....; reboot; ;; esac || return 2) &exit
+		;;
+	stop)
+		start-stop-daemon --stop --signal 9 --retry 5 --quiet --pidfile $PIDFILE
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "usage: $0 {start|stop|restart}"
+esac
+exit 0

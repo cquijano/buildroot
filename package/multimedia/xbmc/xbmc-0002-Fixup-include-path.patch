@@ -1,0 +1,87 @@
+From e2a109c611c87cbcf8bc078fce438181a540e0c6 Mon Sep 17 00:00:00 2001
+From: octo <octo@lusca.local>
+Date: Wed, 12 Dec 2012 22:06:30 +0100
+Subject: [PATCH] Fixup include path
+
+Patch originally taken from :
+http://repository.timesys.com/buildsources/x/xbmc/xbmc-11.0/xbmc-11.0-fixups.patch
+---
+ lib/enca/configure                           |    3 ---
+ lib/enca/configure.ac                        |    3 ---
+ lib/libdvd/libdvdread/misc/dvdread-config.sh |    4 ++--
+ lib/timidity/configure.in                    |    8 ++++----
+ 4 files changed, 6 insertions(+), 12 deletions(-)
+
+diff --git a/lib/enca/configure b/lib/enca/configure
+index c839a51..7af5a09 100644
+--- a/lib/enca/configure
++++ b/lib/enca/configure
+@@ -12011,9 +12011,6 @@ fi
+ if test "$prefix" = "NONE"; then
+   LDFLAGS="$LDFLAGS -L$ac_default_prefix/lib"
+   CPPFLAGS="$CPPFLAGS -I$ac_default_prefix/include"
+-else
+-  LDFLAGS="$LDFLAGS -L$prefix/lib"
+-  CPPFLAGS="$CPPFLAGS -I$prefix/include"
+ fi
+ 
+ 
+diff --git a/lib/enca/configure.ac b/lib/enca/configure.ac
+index e4aad8c..d017870 100644
+--- a/lib/enca/configure.ac
++++ b/lib/enca/configure.ac
+@@ -101,9 +101,6 @@ dnl Dirty path hack.  Helps some people with badly set up search paths.
+ if test "$prefix" = "NONE"; then
+   LDFLAGS="$LDFLAGS -L$ac_default_prefix/lib"
+   CPPFLAGS="$CPPFLAGS -I$ac_default_prefix/include"
+-else
+-  LDFLAGS="$LDFLAGS -L$prefix/lib"
+-  CPPFLAGS="$CPPFLAGS -I$prefix/include"
+ fi
+ 
+ dnl Checks for libraries.
+diff --git a/lib/libdvd/libdvdread/misc/dvdread-config.sh b/lib/libdvd/libdvdread/misc/dvdread-config.sh
+index e170c7e..84df135 100644
+--- a/lib/libdvd/libdvdread/misc/dvdread-config.sh
++++ b/lib/libdvd/libdvdread/misc/dvdread-config.sh
+@@ -48,9 +48,9 @@ if test "$echo_prefix" = "yes"; then
+ fi
+ 
+ if test "$echo_cflags" = "yes"; then
+-      echo -I$prefix/include $extracflags
++      echo $extracflags
+ fi
+ 
+ if test "$echo_libs" = "yes"; then
+-      echo -L$libdir $dvdreadlib
++      echo $dvdreadlib
+ fi      
+diff --git a/lib/timidity/configure.in b/lib/timidity/configure.in
+index 9f2835b..2552e24 100644
+--- a/lib/timidity/configure.in
++++ b/lib/timidity/configure.in
+@@ -100,9 +100,9 @@ done
+ 
+ # add $prefix if specified.
+ if test "x$prefix" != xNONE -a "x$prefix" != "x$ac_default_prefix" -a "x$prefix" != "x/usr"; then
+-  LDFLAGS="-L$prefix/lib $LDFLAGS"
+-  SHLDFLAGS="-L$prefix/lib $SHLDFLAGS"
+-  CPPFLAGS="-I$prefix/include $CPPFLAGS"
++  LDFLAGS="$LDFLAGS"
++  SHLDFLAGS="$SHLDFLAGS"
++  CPPFLAGS="$CPPFLAGS"
+ fi
+ 
+ dnl add --with-includes, --with-libraries
+@@ -1436,7 +1436,7 @@ dnl configure must check ncurses header with -I/usr/include/ncurses option.
+ 
+   case "$ac_cv_header_curses_h$ac_cv_header_ncurses_curses_h$ac_cv_header_ncurses_h" in
+     *yes*);;
+-    *)	for i in /usr/include /usr/local/include; do
++    *)	for i in /no; do
+ 	  if test -f "$i/ncurses/curses.h" -a -f "$i/ncurses/unctrl.h"; then
+ 	    AC_MSG_WARN(ncurses test is failure.  Please check config.h and common.makefile later)
+ 	    CPPFLAGS="$CPPFLAGS -I$i/ncurses"
+-- 
+1.7.10.4
+
