@@ -1,4 +1,6 @@
 #! /bin/sh
+# updated for cubiboard2:
+# 2013, Carlos Quijano <cquijano@crqgestion.es>
 # mkCubieCard.sh v0.1:
 # 2013, Carlo Caione <carlo.caione@gmail.com>
 # heavely based on :
