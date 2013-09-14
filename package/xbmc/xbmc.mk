@@ -4,11 +4,14 @@
 #
 #################################################################################
 
-XBMC_VERSION = Frodo_rc2
-XBMC_SITE = http://github.com/xbmc/xbmc/tarball/$(XBMC_VERSION)
+XBMC_VERSION = HEAD
+XBMC_SITE_METHOD = git
+XBMC_SITE = https://github.com/huceke/xbmc.git
 XBMC_INSTALL_STAGING = YES
+XBMC_INSTALL_TARGET = YES
 XBMC_LICENSE = GPLv2
 XBMC_LICENSE_FILES = LICENSE.GPL
+
 XBMC_DEPENDENCIES = host-lzo host-sdl_image 
 XBMC_MAKE_OPT += -j1
 

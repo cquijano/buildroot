@@ -1,4 +1,4 @@
-menuconfig BR2_PACKAGE_XBMC
+config BR2_PACKAGE_XBMC
 	bool "xbmc"
 	select BR2_PACKAGE_BOOST
 	select BR2_PACKAGE_BOOST_THREAD
@@ -43,6 +43,7 @@ menuconfig BR2_PACKAGE_XBMC
 
 if BR2_PACKAGE_XBMC
 
+menu "XBMC Plugins"
 config BR2_PACKAGE_XBMC_AVAHI
         bool "avahi"
         select BR2_PACKAGE_AVAHI
@@ -168,6 +169,8 @@ config BR2_PACKAGE_XBMC_WAVPACK
 	help
 	  Enable wavpack input support.
 	  Select this if you want to play back WV files.
+
+endmenu
 
 endif
 
