@@ -39,3 +39,4 @@ SDL_IMAGE_DEPENDENCIES = sdl \
 	$(if $(BR2_PACKAGE_SDL_IMAGE_WEBP),webp)
 
 $(eval $(autotools-package))
+$(eval $(host-autotools-package))

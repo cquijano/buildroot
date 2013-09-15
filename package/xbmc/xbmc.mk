@@ -4,15 +4,15 @@
 #
 #################################################################################
 
-XBMC_VERSION = HEAD
+XBMC_VERSION = d86d6ba9fbf7263ba0c652d5c7f4f919e8cba485
 XBMC_SITE_METHOD = git
-XBMC_SITE = https://github.com/huceke/xbmc.git
+XBMC_SITE = https://github.com/xbmc/xbmc.git
 XBMC_INSTALL_STAGING = YES
 XBMC_INSTALL_TARGET = YES
 XBMC_LICENSE = GPLv2
 XBMC_LICENSE_FILES = LICENSE.GPL
 
-XBMC_DEPENDENCIES = host-lzo host-sdl_image 
+XBMC_DEPENDENCIES = host-lzo host-sdl 
 XBMC_MAKE_OPT += -j1
 
 XBMC_CONF_ENV += PYTHON_VERSION="$(PYTHON_VERSION_MAJOR)"
@@ -29,18 +29,22 @@ XBMC_CONF_OPT += --enable-gles --disable-gl --disable-sdl --disable-x11 --disabl
                --disable-vdpau --disable-pulse --disable-projectm --enable-optimizations \
                --disable-alsa --disable-ssh --disable-hal 
 
-XBMC_DEPENDENCIES += libmpeg2 bzip2 libcdio python lzo zlib libgcrypt \
-		openssl sqlite fontconfig freetype jasper jpeg libmodplug \
+XBMC_DEPENDENCIES += libmpeg2 bzip2 python lzo zlib libgcrypt \
+		openssl sqlite fontconfig freetype jpeg  \
 		libpng libungif tiff libcurl boost libfribidi ncurses pcre \
-		libplist readline expat libxml2 yajl tinyxml taglib
+		readline expat libxml2 yajl taglib \
+		libass libmodplug tinyxml jasper libcdio sdl \
+#		jasper libcdio libmodplug libplist tinyxml \ 
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 XBMC_DEPENDENCIES += rpi-userland
 XBMC_CONF_OPT += --with-platform=raspberry-pi --enable-player=omxplayer
 XBMC_PLATFORM = raspberrypi
 XBMC_CONF_ENV += INCLUDES="-I$(STAGING_DIR)/opt/vc/include \
+			-I$(STAGING_DIR)/usr/include \
 			-I$(STAGING_DIR)/opt/vc/include/interface/vcos/pthreads \
 			-I$(STAGING_DIR)/opt/vc/include/interface/vmcs_host/linux"
+
 XBMC_CONF_ENV += LDFLAGS="$(TARGET_LDFLAGS) -L$(STAGING_DIR)/opt/vc/lib"
 endif
 
@@ -151,7 +155,7 @@ endef
 
 define XBMC_INSTALL_ETC
 	$(INSTALL) -D -d -m 755 $(TARGET_DIR)/etc/init.d/
-	$(INSTALL) -D -m 755 package/multimedia/xbmc/S99xbmc.$(XBMC_PLATFORM) $(TARGET_DIR)/etc/init.d/S99xbmc
+	$(INSTALL) -D -m 755 package/xbmc/S99xbmc.$(XBMC_PLATFORM) $(TARGET_DIR)/etc/init.d/S99xbmc
 endef
 
 define XBMC_CLEAN_UNUSED_ADDONS
