@@ -16,7 +16,7 @@ How to build it
 You need to use the cubieboard_defconfig or cubieboard2_defconfig, to do so:
  * make cubieboard_defconfig 
 or
- * cubieboard2_defconfig
+ * make cubieboard2_defconfig
 
 And to compile:
  * make
