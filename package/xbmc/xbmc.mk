@@ -34,7 +34,9 @@ XBMC_DEPENDENCIES += libmpeg2 bzip2 python lzo zlib libgcrypt \
 		libpng libungif tiff libcurl boost libfribidi ncurses pcre \
 		readline expat libxml2 yajl taglib \
 		libass libmodplug tinyxml jasper libcdio sdl \
-#		jasper libcdio libmodplug libplist tinyxml \ 
+		libmad libsamplerate libogg vorbis flac
+
+		
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 XBMC_DEPENDENCIES += rpi-userland
