@@ -1,21 +1,31 @@
 #!/bin/sh
 
-NAME=xbmc.bin
-DAEMON=/usr/lib/xbmc/$NAME
-DAEMON_ARGS="--standalone -fs -n"
-PIDFILE=/var/run/xbmc.pid
-
+#export XBMC_BASE=/opt/xbmc
+#export XBMC_HOME=/opt/xbmc/share/xbmc
+#export PATH=$PATH:/opt/xbmc/bin
 export HOME=/root
+
+XRES=1920
+YRES=1080
+
+export LD_LIBRARY_PATH=$XBMC_BASE/lib:/opt/vc/lib:/usr/lib/mysql:$LD_LIBRARY_PATH
 
 case "$1" in
 	start)
-		echo $(start-stop-daemon -u root -m --start --quiet --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS; RETURN=$?; case $RETURN in 0 ) echo do normal exit.....; exit 0; ;; 64 ) echo do power off.....; halt ;; 66 ) echo do reboot.....; reboot; ;; esac || return 2) &exit
+		echo 'Starting xbmc'
+    echo 0 >  /sys/class/vtconsole/vtcon1/bind
+    fbset -xres 1 -yres 1 -vxres 1 -vyres 1
+    /usr/lib/xbmc/xbmc.bin -standalone -fs &
 		;;
 	stop)
-		start-stop-daemon --stop --signal 9 --retry 5 --quiet --pidfile $PIDFILE
+		echo 'Stopping xbmc'
+    pkill xbmc.bin
+    #fbset -xres ${XRES} -yres ${YRES}
+    #echo 1 >  /sys/class/vtconsole/vtcon1/bind
 		;;
 	restart)
 		$0 stop
+		sleep 1
 		$0 start
 		;;
 	*)
