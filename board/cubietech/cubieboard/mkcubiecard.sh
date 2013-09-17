@@ -33,7 +33,7 @@ if [ $EUID -ne 0 ]; then
 	exit 1
 fi
 
-if [ ! -f $SPL_IMG ] ||
+if [ ! -f $SPL_IMG  -a ! -f $SPL_UBOOT ] ||
    [ ! -f $UBOOT_IMG ] ||
    [ ! -f $UIMAGE ] ||
    [ ! -f $BIN_BOARD_FILE ] ||
