@@ -34,7 +34,7 @@ XBMC_DEPENDENCIES += libmpeg2 bzip2 python lzo zlib libgcrypt \
 		libpng libungif tiff libcurl boost libfribidi ncurses pcre \
 		readline expat libxml2 yajl taglib \
 		libass libmodplug tinyxml jasper libcdio sdl \
-		libmad libsamplerate libogg vorbis flac
+		libmad libsamplerate libogg vorbis-tools flac
 
 		
 
