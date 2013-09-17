@@ -26,7 +26,7 @@ BR2_LINUX_KERNEL_CUSTOM_GIT_REPO_URL="https://github.com/linux-sunxi/linux-sunxi
 BR2_LINUX_KERNEL_CUSTOM_GIT_VERSION="5dda5145c877335e17bd9ca48954841acc0f785a"
 BR2_LINUX_KERNEL_VERSION="sunxi-3.4"
 BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
-BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="board/cubietech/cubieboard2/cubieboard2_kernel.config"
+BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="board/cubietech/cubieboard/linux-cubieboard2.config"
 
 # Bootloaders
 BR2_TARGET_UBOOT=y
