@@ -39,13 +39,13 @@ XBMC_CONF_OPT +=  \
 	--disable-optical-drive \
 	--disable-projectm \
 	--disable-pulse \
-	--disable-sdl \
+	--enable-sdl \
 	--disable-ssh \
 	--disable-vaapi \
 	--disable-vdpau \
 	--disable-vtbdecoder \
-	--disable-x11 \
-	--disable-xrandr \
+	--enable-x11 \
+	--enable-xrandr \
 	--enable-gles \
 	--enable-optimizations
 
