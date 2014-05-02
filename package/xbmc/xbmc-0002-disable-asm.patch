@@ -1,0 +1,10 @@
+--- a/bmc/utils/MathUtils.h	2014-05-02 13:12:25.034749047 +0200
++++ b/xbmc/utils/MathUtils.h	2014-05-02 13:12:08.838933896 +0200
+@@ -27,6 +27,7 @@
+ #ifdef __SSE2__
+ #include <emmintrin.h>
+ #endif
++#define DISABLE_MATHUTILS_ASM_ROUND_INT	1
+ // use real compiler defines in here as we want to
+ // avoid including system.h or other magic includes.
+ // use 'gcc -dM -E - < /dev/null' or similar to find them.
