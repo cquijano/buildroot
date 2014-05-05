@@ -42,6 +42,7 @@ XBMC_CONF_OPT +=  \
 	--disable-vaapi \
 	--disable-vdpau \
 	--disable-vtbdecoder \
+	--disable-rsxs \
 	--enable-optimizations
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
