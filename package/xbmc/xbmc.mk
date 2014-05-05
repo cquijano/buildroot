@@ -14,7 +14,7 @@ XBMC_LICENSE_FILES = LICENSE.GPL
 # http://wiki.xbmc.org/index.php?title=TexturePacker
 XBMC_DEPENDENCIES = host-gawk host-gperf host-infozip host-lzo host-sdl_image host-swig
 XBMC_DEPENDENCIES += boost bzip2 expat flac fontconfig freetype jasper jpeg \
-	libass libcdio libcurl libegl libfribidi libgcrypt libgles libmad libmodplug libmpeg2 \
+	libass libcdio libcurl libegl libfribidi libgcrypt libmad libmodplug libmpeg2 \
 	libogg libplist libpng libsamplerate libungif libvorbis libxml2 lzo ncurses \
 	openssl pcre python readline sqlite taglib tiff tinyxml yajl zlib
 
@@ -31,7 +31,6 @@ XBMC_CONF_OPT +=  \
 	--disable-crystalhd \
 	--disable-debug \
 	--disable-dvdcss \
-	--disable-gl \
 	--disable-hal \
 	--disable-joystick \
 	--disable-mysql \
@@ -39,14 +38,10 @@ XBMC_CONF_OPT +=  \
 	--disable-optical-drive \
 	--disable-projectm \
 	--disable-pulse \
-	--disable-sdl \
 	--disable-ssh \
 	--disable-vaapi \
 	--disable-vdpau \
 	--disable-vtbdecoder \
-	--disable-x11 \
-	--disable-xrandr \
-	--enable-gles \
 	--enable-optimizations
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
@@ -58,6 +53,41 @@ endif
 
 ifeq ($(BR2_PACKAGE_DBUS),y)
 XBMC_DEPENDENCIES += dbus
+endif
+
+ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),y)
+XBMC_DEPENDENCIES += \
+	libglew \
+	libglu \
+	mesa3d \
+	sdl_image \
+	xlib_libX11 \
+	xlib_libXext \
+	xlib_libXmu \
+	xlib_libXrandr \
+	xlib_libXt
+XBMC_CONF_OPT += \
+	--enable-x11 \
+	--enable-xrandr \
+	--enable-gl \
+	--enable-sdl
+else
+XBMC_CONF_OPT += \
+	--disable-x11 \
+	--disable-xrandr \
+	--disable-gl \
+	--disable-sdl
+endif
+
+ifeq ($(BR2_PACKAGE_HAS_OPENGL_EGL),y)
+XBMC_DEPENDENCIES += libegl
+endif
+
+ifeq ($(BR2_PACKAGE_HAS_OPENGL_ES),y)
+XBMC_DEPENDENCIES += libgles
+XBMC_CONF_OPT += --enable-gles
+else
+XBMC_CONF_OPT += --disable-gles
 endif
 
 ifeq ($(BR2_PACKAGE_XBMC_LIBUSB),y)
