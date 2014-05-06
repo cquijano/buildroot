@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-XBMC_VERSION = 12.3-Frodo
-XBMC_SITE = $(call github,xbmc,xbmc,$(XBMC_VERSION))
+XBMC_VERSION = 2cefe32c46
+XBMC_SITE = $(call github,rellla,xbmca10,$(XBMC_VERSION))
 XBMC_LICENSE = GPLv2
 XBMC_LICENSE_FILES = LICENSE.GPL
 # XBMC needs host-sdl_image (and therefore host-sdl) for a host tools it builds
@@ -80,11 +80,11 @@ XBMC_CONF_OPT += \
 	--disable-sdl
 endif
 
-ifeq ($(BR2_PACKAGE_HAS_OPENGL_EGL),y)
+ifeq ($(BR2_PACKAGE_MESA3D_OPENGL_EGL),y)
 XBMC_DEPENDENCIES += libegl
 endif
 
-ifeq ($(BR2_PACKAGE_HAS_OPENGL_ES),y)
+ifeq ($(BR2_PACKAGE_MESA3D_OPENGL_ES),y)
 XBMC_DEPENDENCIES += libgles
 XBMC_CONF_OPT += --enable-gles
 else
@@ -200,6 +200,9 @@ define XBMC_INSTALL_INIT_SYSV
 		$(TARGET_DIR)/etc/init.d/S50xbmc
 endef
 
+ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),y)
+
+else
 define XBMC_INSTALL_INIT_SYSTEMD
 	$(INSTALL) -D -m 644 package/xbmc/xbmc.service \
 		$(TARGET_DIR)/etc/systemd/system/xbmc.service
@@ -209,5 +212,7 @@ define XBMC_INSTALL_INIT_SYSTEMD
 	ln -fs ../xbmc.service \
 		$(TARGET_DIR)/etc/systemd/system/multi-user.target.wants/xbmc.service
 endef
+	echo 'exec /usr/lib/xbmc/xbmc.bin --standalone -fs -n' > $(TARGET_DIR)/etc/X11/xinit/xinitrc
+endif
 
 $(eval $(autotools-package))
