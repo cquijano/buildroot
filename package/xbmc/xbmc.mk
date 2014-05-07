@@ -25,8 +25,7 @@ XBMC_CONF_ENV = \
 	PYTHON_SITE_PKG="$(STAGING_DIR)/usr/lib/python$(PYTHON_VERSION_MAJOR)/site-packages" \
 	PYTHON_NOVERSIONCHECK="no-check" \
 	TEXTUREPACKER_NATIVE_ROOT="$(HOST_DIR)/usr" \
-	LIBS="-lcedarv"
-	#LIBS="$(LIBS) -lvecore -lcedarv -lcedarxalloc" 
+	USEARMHF="1"
 
 XBMC_CONF_OPT +=  \
 	--disable-alsa \
@@ -45,7 +44,7 @@ XBMC_CONF_OPT +=  \
 	--disable-vdpau \
 	--disable-vtbdecoder \
 	--disable-rsxs \
-	--enable-optimizations
+	--enable-optimizations 
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 XBMC_DEPENDENCIES += rpi-userland
@@ -53,7 +52,6 @@ XBMC_CONF_OPT += --with-platform=raspberry-pi --enable-player=omxplayer
 XBMC_CONF_ENV += INCLUDES="-I$(STAGING_DIR)/usr/include/interface/vcos/pthreads \
 	-I$(STAGING_DIR)/usr/include/interface/vmcs_host/linux"
 endif
-
 ifeq ($(BR2_PACKAGE_DBUS),y)
 XBMC_DEPENDENCIES += dbus
 endif
@@ -214,7 +212,5 @@ define XBMC_INSTALL_INIT_SYSTEMD
 	ln -fs ../xbmc.service \
 		$(TARGET_DIR)/etc/systemd/system/multi-user.target.wants/xbmc.service
 endef
-	echo 'exec /usr/lib/xbmc/xbmc.bin --standalone -fs -n' > $(TARGET_DIR)/etc/X11/xinit/xinitrc
 endif
-
 $(eval $(autotools-package))

@@ -1,0 +1,12 @@
+diff -Naru a/configure.in b/configure.in
+--- a/configure.in	2013-08-07 16:44:01.000000000 +0200
++++ b/configure.in	2014-05-07 18:10:27.651056676 +0200
+@@ -2752,7 +2752,7 @@
+     CXXFLAGS="$CXXFLAGS"
+ ], [$DISABLE_PVR_ADDON_CONFIG])
+ 
+-LIBS="$LIBS $CEDARLIBS"
++LIBS="$LIBS -lcedarv -lvecore -lcedarxalloc"
+ 
+ AC_OUTPUT
+ 
