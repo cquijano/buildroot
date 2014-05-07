@@ -24,7 +24,9 @@ XBMC_CONF_ENV = \
 	PYTHON_CPPFLAGS="-I$(STAGING_DIR)/usr/include/python$(PYTHON_VERSION_MAJOR)" \
 	PYTHON_SITE_PKG="$(STAGING_DIR)/usr/lib/python$(PYTHON_VERSION_MAJOR)/site-packages" \
 	PYTHON_NOVERSIONCHECK="no-check" \
-	TEXTUREPACKER_NATIVE_ROOT="$(HOST_DIR)/usr"
+	TEXTUREPACKER_NATIVE_ROOT="$(HOST_DIR)/usr" \
+	LIBS="-lcedarv"
+	#LIBS="$(LIBS) -lvecore -lcedarv -lcedarxalloc" 
 
 XBMC_CONF_OPT +=  \
 	--disable-alsa \

@@ -42,17 +42,29 @@ endef
 define SUNXI_CEDARX_INSTALL_STAGING_CMDS
 	$(INSTALL) -d -m 755 $(STAGING_DIR)/usr/include/libvecore
 	$(INSTALL) -m 664 $(SUNXI_CEDARX_BIN_DIR)/libvecore/*.h \
-		$(STAGING_DIR)/usr/include/libvecore
+		$(STAGING_DIR)/usr/include
 	$(INSTALL) -m 644 $(SUNXI_CEDARX_BIN_DIR)/*.h \
-		$(STAGING_DIR)/usr/include/
+		$(STAGING_DIR)/usr/include
+	$(INSTALL) -m 644 $(SUNXI_CEDARX_BIN_DIR)/libcedarv/*.h \
+		$(STAGING_DIR)/usr/include
+	$(INSTALL) -m 644 $(SUNXI_CEDARX_BIN_DIR)/adapter/*.h \
+		$(STAGING_DIR)/usr/include
 	$(INSTALL) -D -m 755 $(SUNXI_CEDARX_BIN_DIR)/libvecore/libvecore.so \
 		$(STAGING_DIR)/usr/lib/libvecore.so
+	$(INSTALL) -D -m 755 $(@D)/old/a10_video_decode/libvecoredemo_linux_A10_with_display/vdecoder/libvecore/libvecore.a \
+		$(STAGING_DIR)/usr/lib/libvecore.a
+	$(INSTALL) -D -m 755 $(SUNXI_CEDARX_BIN_DIR)/libcedarv.a \
+		$(STAGING_DIR)/usr/lib/libcedarv.a
+        $(INSTALL) -D -m 755 $(SUNXI_CEDARX_BIN_DIR)/adapter/cdxalloc/libcedarxalloc.so \
+		$(STAGING_DIR)/usr/lib/libcedarxalloc.so
 	$(call SUNXI_CEDARX_INSTALL_AVHEAP, $(STAGING_DIR))
 endef
 
 define SUNXI_CEDARX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 755 $(SUNXI_CEDARX_BIN_DIR)/libvecore/libvecore.so \
 		$(TARGET_DIR)/usr/lib/libvecore.so
+        $(INSTALL) -D -m 755 $(SUNXI_CEDARX_BIN_DIR)/adapter/cdxalloc/libcedarxalloc.so \
+                $(TARGET_DIR)/usr/lib/libcedarxalloc.so
 	$(call SUNXI_CEDARX_INSTALL_AVHEAP, $(TARGET_DIR))
 endef
 
